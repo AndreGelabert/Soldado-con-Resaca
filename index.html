@@ -2,6 +2,7 @@
 <html class="scroll-smooth dark" lang="es">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
     <script>
         tailwind.config = {
@@ -68,6 +69,26 @@
                 opacity: 1;
                 visibility: visible;
             }
+
+        .service-carousel-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 500ms ease-in-out;
+        }
+
+            .service-carousel-slide.active {
+                opacity: 1;
+            }
+
+        .service-carousel-dot {
+            transition: all 200ms ease-in-out;
+        }
+
+            .service-carousel-dot.active {
+                background-color: #39FF14;
+                transform: scale(1.2);
+            }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-body transition-colors duration-200">
@@ -82,6 +103,7 @@
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a class="text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#inicio">Inicio</a>
+                    <a class="text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#nosotros">Nosotros</a>
                     <a class="text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#servicios">Servicios</a>
                     <a class="text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#estrategia">Estrategia</a>
                     <a class="text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors" href="#galeria">Galería</a>
@@ -99,22 +121,15 @@
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div class="md:hidden fixed inset-0 z-50 hidden" id="mobile-menu">
-            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" id="mobile-menu-overlay"></div>
-            <div class="fixed top-0 right-0 h-full w-64 bg-white/95 dark:bg-black/95 backdrop-blur shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out" id="mobile-menu-panel">
-                <div class="flex justify-end p-4">
-                    <button class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none transition-colors" id="mobile-menu-close">
-                        <span class="material-icons text-accent-blue dark:text-primary">close</span>
-                    </button>
-                </div>
-                <nav class="px-4 py-6 space-y-4">
-                    <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#inicio">Inicio</a>
-                    <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#servicios">Servicios</a>
-                    <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#estrategia">Estrategia</a>
-                    <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#galeria">Galería</a>
-                    <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#contacto">Contacto</a>
-                </nav>
-            </div>
+        <div class="md:hidden overflow-hidden transition-all duration-300 ease-in-out" id="mobile-menu" style="max-height: 0;">
+            <nav class="px-4 py-4 space-y-1 shadow-lg border-gray-200 dark:border-gray-800">
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#inicio">Inicio</a>
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#nosotros">Nosotros</a>
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#servicios">Servicios</a>
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#estrategia">Estrategia</a>
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#galeria">Galería</a>
+                <a class="block text-gray-700 dark:text-gray-300 hover:text-accent-blue dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-md text-base font-medium transition-colors" href="#contacto">Contacto</a>
+            </nav>
         </div>
     </nav>
     <header class="relative bg-accent-blue dark:bg-surface-dark overflow-hidden transition-colors duration-500" id="inicio">
@@ -148,7 +163,7 @@
             </div>
         </div>
     </header>
-    <section class="py-16 bg-background-light dark:bg-background-dark transition-colors duration-200">
+    <section class="py-16 bg-background-light dark:bg-background-dark transition-colors duration-200" id="nosotros">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-block p-3 rounded-full bg-surface-light dark:bg-surface-dark shadow-lg mb-6 ring-1 ring-gray-200 dark:ring-primary/50">
                 <span class="material-icons text-4xl text-accent-blue dark:text-primary">military_tech</span>
@@ -167,10 +182,13 @@
                 </h2>
                 <p class="mt-4 text-gray-500 dark:text-gray-400">Equipamiento táctico para tu día a día.</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden">
-                        <img alt="Remeras estampadas personalizadas" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 object-top" src="Resources/img/Remeras.jpg" />
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Remeras estampadas personalizadas" class="service-carousel-slide active w-full h-full object-cover object-top" data-service-slide src="Resources/img/Remeras 2.jpg" />
+                        <img alt="Remeras estampadas personalizadas - imagen 2" class="service-carousel-slide w-full h-full object-cover object-top" data-service-slide src="Resources/img/Remeras 3 recortadas.jpg" />
+                        <img alt="Remeras estampadas personalizadas - imagen 3" class="service-carousel-slide w-full h-full object-cover object-top" data-service-slide src="Resources/img/Remeras.jpg" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -180,8 +198,11 @@
                     </div>
                 </div>
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden">
-                        <img alt="Zapatillas y productos urbanos de moda" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSVN2vIHpHtXjN2ftCPg8MFartrefPFdUd1dgDsjN_adfnoKuGVqd_Ick8XGHx8BEI7VeH9G2fJc8Xw3lUKyzKU2lNDa4kwCRqcJv33yJJYsFxjVZ_vVarngiGgCYUb2RYk0faHGYmRf2DUUWMG6U87qmDWqECLzLDpdc6htvOJcJkbf_6wLv8VZnYrgHKEh0AnVZNHNbs1oOrkPTkqDd5m5Z7yRa8wvgotWNe_c-rGYPiVZkFrgExu95fQ6grmYb9NCe2dOK2DwVy" />
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Termolares personalizados" class="service-carousel-slide active w-full h-full object-cover" data-service-slide src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSVN2vIHpHtXjN2ftCPg8MFartrefPFdUd1dgDsjN_adfnoKuGVqd_Ick8XGHx8BEI7VeH9G2fJc8Xw3lUKyzKU2lNDa4kwCRqcJv33yJJYsFxjVZ_vVarngiGgCYUb2RYk0faHGYmRf2DUUWMG6U87qmDWqECLzLDpdc6htvOJcJkbf_6wLv8VZnYrgHKEh0AnVZNHNbs1oOrkPTkqDd5m5Z7yRa8wvgotWNe_c-rGYPiVZkFrgExu95fQ6grmYb9NCe2dOK2DwVy" />
+                        <img alt="Termolares personalizados - imagen 2" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/111827/39FF14?text=Termolares+2" />
+                        <img alt="Termolares personalizados - imagen 3" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/374151/ffffff?text=Termolares+3" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -191,8 +212,11 @@
                     </div>
                 </div>
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-                        <span class="material-icons text-6xl text-accent-blue dark:text-primary animate-pulse">qr_code_scanner</span>
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Grabado láser personalizado" class="service-carousel-slide active w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/0f172a/39FF14?text=Grabado+L%C3%A1ser+1" />
+                        <img alt="Grabado láser personalizado - imagen 2" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/1e293b/ffffff?text=Grabado+L%C3%A1ser+2" />
+                        <img alt="Grabado láser personalizado - imagen 3" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/020617/39FF14?text=Grabado+L%C3%A1ser+3" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -202,8 +226,11 @@
                     </div>
                 </div>
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden">
-                        <img alt="Diseño gráfico y ploteo de vinilos" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJMkItyLH9PQoQWUtt2w3BlImvVmfDgJZjq6O195pG20IDDmqeewM6_TaYwbHqu4BTicXD81DmX_OMkgiDUdLyNyvWWCb1SqJkOTYcDzNDd4YPzfzWCZWPbT4Bd1AWSUkxC3AHYZCcr6aVAhBJjyU20SQ0KfgaAWQeWPAbU6XyYZrsUdE7P3DWzbJu8QxzBHjTlP4we_2jiWA87ewDCql-r8r3n1rZBf6M3ct7razhxKS7XlvtG87j-JuwTabM3bozzIrJC33vk3wj" />
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Diseño gráfico y ploteo de vinilos" class="service-carousel-slide active w-full h-full object-cover" data-service-slide src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJMkItyLH9PQoQWUtt2w3BlImvVmfDgJZjq6O195pG20IDDmqeewM6_TaYwbHqu4BTicXD81DmX_OMkgiDUdLyNyvWWCb1SqJkOTYcDzNDd4YPzfzWCZWPbT4Bd1AWSUkxC3AHYZCcr6aVAhBJjyU20SQ0KfgaAWQeWPAbU6XyYZrsUdE7P3DWzbJu8QxzBHjTlP4we_2jiWA87ewDCql-r8r3n1rZBf6M3ct7razhxKS7XlvtG87j-JuwTabM3bozzIrJC33vk3wj" />
+                        <img alt="Diseño gráfico y ploteo - imagen 2" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/312e81/ffffff?text=Ploteos+2" />
+                        <img alt="Diseño gráfico y ploteo - imagen 3" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/1e1b4b/39FF14?text=Ploteos+3" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -213,8 +240,11 @@
                     </div>
                 </div>
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden">
-                        <img alt="Merchandising variado tazas gorras" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtASFajFt8P1Qtc9mYIR-B4O7DBIQ2_Xuac1gF3FdrmmkQueGpZqcUedmbun0IvnX64GdYwT8udr9N91kqdXWCqFqS6XRQXRbyhNG1wOW4omO6AV40PbsqoaHg_DzBUQyLaMXbEObqBALbfprqluJX0tShyP1-F8V1Tijw7zuEOfe3n03HVSddQFyyfLWyL8EwBYMER-ysWipFQGDGU8IM1lblzhSqsS2sUtslOlLzwVkoZa1u71M65CaF1xZbw3bJ5ff9-TELeVye" />
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Merchandising variado tazas gorras" class="service-carousel-slide active w-full h-full object-cover" data-service-slide src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtASFajFt8P1Qtc9mYIR-B4O7DBIQ2_Xuac1gF3FdrmmkQueGpZqcUedmbun0IvnX64GdYwT8udr9N91kqdXWCqFqS6XRQXRbyhNG1wOW4omO6AV40PbsqoaHg_DzBUQyLaMXbEObqBALbfprqluJX0tShyP1-F8V1Tijw7zuEOfe3n03HVSddQFyyfLWyL8EwBYMER-ysWipFQGDGU8IM1lblzhSqsS2sUtslOlLzwVkoZa1u71M65CaF1xZbw3bJ5ff9-TELeVye" />
+                        <img alt="Merchandising personalizado - imagen 2" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/7c2d12/ffffff?text=Merchandising+2" />
+                        <img alt="Merchandising personalizado - imagen 3" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/9a3412/39FF14?text=Merchandising+3" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -224,9 +254,11 @@
                     </div>
                 </div>
                 <div class="group relative bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-accent-blue dark:hover:border-primary">
-                    <div class="h-48 overflow-hidden bg-accent-blue dark:bg-gray-900 flex items-center justify-center relative">
-                        <div class="absolute inset-0 bg-primary opacity-10"></div>
-                        <span class="material-icons text-6xl text-white">star</span>
+                    <div class="relative aspect-[4/4] overflow-hidden" data-service-carousel data-interval="4500">
+                        <img alt="Servicio a medida" class="service-carousel-slide active w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/003366/ffffff?text=A+Medida+1" />
+                        <img alt="Servicio a medida - imagen 2" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/0f172a/39FF14?text=A+Medida+2" />
+                        <img alt="Servicio a medida - imagen 3" class="service-carousel-slide w-full h-full object-cover" data-service-slide src="https://placehold.co/800x1000/111827/ffffff?text=A+Medida+3" />
+                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10" data-service-dots></div>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white uppercase font-display mb-2 flex items-center">
@@ -340,7 +372,7 @@
                                     <tbody>
                                         <tr class="border-b border-gray-200 dark:border-gray-800">
                                             <td class="py-2 font-medium text-gray-900 dark:text-white">Lunes - Viernes</td>
-                                            <td class="py-2 text-right">09:00 - 12:00 | 16:00 - 19:00</td>
+                                            <td class="py-2 text-right">08:00 - 12:00 | 16:00 - 19:00</td>
                                         </tr>
                                         <tr>
                                             <td class="py-2 font-medium text-gray-900 dark:text-white">Sábados y Domingos</td>
@@ -393,6 +425,7 @@
                     <h4 class="text-lg font-bold text-gray-900 dark:text-white uppercase mb-6">Enlaces Rápidos</h4>
                     <ul class="space-y-4">
                         <li><a class="text-gray-600 dark:text-gray-400 hover:text-accent-blue dark:hover:text-primary transition-colors" href="#inicio">Inicio</a></li>
+                        <li><a class="text-gray-600 dark:text-gray-400 hover:text-accent-blue dark:hover:text-primary transition-colors" href="#nosotros">Nosotros</a></li>
                         <li><a class="text-gray-600 dark:text-gray-400 hover:text-accent-blue dark:hover:text-primary transition-colors" href="#servicios">Servicios</a></li>
                         <li><a class="text-gray-600 dark:text-gray-400 hover:text-accent-blue dark:hover:text-primary transition-colors" href="#estrategia">Estrategia</a></li>
                         <li><a class="text-gray-600 dark:text-gray-400 hover:text-accent-blue dark:hover:text-primary transition-colors" href="#galeria">Galería</a></li>

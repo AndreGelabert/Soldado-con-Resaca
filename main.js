@@ -46,41 +46,136 @@ document.addEventListener('DOMContentLoaded', function () {
     // === Mobile Menu Logic ===
     var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     var mobileMenu = document.getElementById('mobile-menu');
-    var mobileMenuPanel = document.getElementById('mobile-menu-panel');
-    var mobileMenuClose = document.getElementById('mobile-menu-close');
-    var mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-    var mobileMenuLinks = document.querySelectorAll('#mobile-menu-panel a');
+    var menuIcon = document.getElementById('menu-icon');
+    var mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+    var isMenuOpen = false;
 
     function openMobileMenu() {
-        mobileMenu.classList.remove('hidden');
-        setTimeout(function () {
-            mobileMenuPanel.classList.remove('translate-x-full');
-        }, 10);
+        mobileMenu.style.maxHeight = '400px';
+        menuIcon.textContent = 'close';
+        isMenuOpen = true;
     }
 
     function closeMobileMenu() {
-        mobileMenuPanel.classList.add('translate-x-full');
-        setTimeout(function () {
-            mobileMenu.classList.add('hidden');
-        }, 300);
+        mobileMenu.style.maxHeight = '0';
+        menuIcon.textContent = 'menu';
+        isMenuOpen = false;
     }
 
     if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', openMobileMenu);
-    }
-
-    if (mobileMenuClose) {
-        mobileMenuClose.addEventListener('click', closeMobileMenu);
-    }
-
-    if (mobileMenuOverlay) {
-        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        mobileMenuToggle.addEventListener('click', function () {
+            if (isMenuOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
     }
 
     // Close mobile menu when clicking on a link
     mobileMenuLinks.forEach(function (link) {
         link.addEventListener('click', closeMobileMenu);
     });
+
+    // === Services Carousels Logic ===
+    function initServiceCarousels() {
+        var carousels = document.querySelectorAll('[data-service-carousel]');
+
+        carousels.forEach(function (carousel) {
+            var slides = carousel.querySelectorAll('[data-service-slide]');
+            var dotsContainer = carousel.querySelector('[data-service-dots]');
+            var dots = [];
+            var currentIndex = 0;
+            var timer = null;
+            var interval = parseInt(carousel.getAttribute('data-interval'), 10) || 4500;
+
+            if (!slides.length) {
+                return;
+            }
+
+            if (!dotsContainer) {
+                dotsContainer = document.createElement('div');
+                dotsContainer.setAttribute('data-service-dots', '');
+                dotsContainer.className = 'absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10';
+                carousel.appendChild(dotsContainer);
+            }
+
+            dotsContainer.innerHTML = '';
+
+            slides.forEach(function (slide, index) {
+                var dot = document.createElement('button');
+                dot.type = 'button';
+                dot.setAttribute('data-service-dot', '');
+                dot.setAttribute('aria-label', 'Ver imagen ' + (index + 1));
+                dot.className = 'service-carousel-dot w-2.5 h-2.5 rounded-full ' + (index === 0 ? 'active bg-white/80' : 'bg-white/50');
+                dotsContainer.appendChild(dot);
+                dots.push(dot);
+
+                if (index === 0) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            function showSlide(index) {
+                if (index === currentIndex || index < 0 || index >= slides.length) {
+                    return;
+                }
+
+                slides[currentIndex].classList.remove('active');
+                if (dots[currentIndex]) {
+                    dots[currentIndex].classList.remove('active');
+                    dots[currentIndex].classList.remove('bg-white/80');
+                    dots[currentIndex].classList.add('bg-white/50');
+                }
+
+                currentIndex = index;
+                slides[currentIndex].classList.add('active');
+
+                if (dots[currentIndex]) {
+                    dots[currentIndex].classList.add('active');
+                    dots[currentIndex].classList.remove('bg-white/50');
+                    dots[currentIndex].classList.add('bg-white/80');
+                }
+            }
+
+            function nextSlide() {
+                var nextIndex = (currentIndex + 1) % slides.length;
+                showSlide(nextIndex);
+            }
+
+            function startAutoplay() {
+                if (slides.length < 2) {
+                    return;
+                }
+
+                stopAutoplay();
+                timer = setInterval(nextSlide, interval);
+            }
+
+            function stopAutoplay() {
+                if (timer) {
+                    clearInterval(timer);
+                    timer = null;
+                }
+            }
+
+            dots.forEach(function (dot, dotIndex) {
+                dot.addEventListener('click', function () {
+                    showSlide(dotIndex);
+                    startAutoplay();
+                });
+            });
+
+            carousel.addEventListener('mouseenter', stopAutoplay);
+            carousel.addEventListener('mouseleave', startAutoplay);
+
+            startAutoplay();
+        });
+    }
+
+    initServiceCarousels();
 
     // === Reviews Data and Carousel Logic ===
     var reviewsData = [
@@ -125,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (var i = 0; i < fullStars; i++) {
             starsHTML += '<span class="material-icons text-yellow-400 text-sm">star</span>';
         }
-        
+
         if (hasHalfStar) {
             starsHTML += '<span class="material-icons text-yellow-400 text-sm">star_half</span>';
         }
