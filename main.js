@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var isMenuOpen = false;
 
     function openMobileMenu() {
-        mobileMenu.style.maxHeight = '400px';
+        mobileMenu.style.maxHeight = '500px';
         menuIcon.textContent = 'close';
         isMenuOpen = true;
     }
@@ -72,9 +72,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // === Mobile Servicios Submenu Logic ===
+    var mobileServiciosToggle = document.getElementById('mobile-servicios-toggle');
+    var mobileServiciosMenu = document.getElementById('mobile-servicios-menu');
+    var mobileServiciosIcon = document.getElementById('mobile-servicios-icon');
+    var isServiciosOpen = false;
+
+    if (mobileServiciosToggle) {
+        mobileServiciosToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (isServiciosOpen) {
+                mobileServiciosMenu.style.maxHeight = '0';
+                mobileServiciosIcon.style.transform = 'rotate(0deg)';
+                isServiciosOpen = false;
+                // Restore original menu height
+                mobileMenu.style.maxHeight = '500px';
+            } else {
+                mobileServiciosMenu.style.maxHeight = '300px';
+                mobileServiciosIcon.style.transform = 'rotate(180deg)';
+                isServiciosOpen = true;
+                // Expand main menu to fit submenu
+                mobileMenu.style.maxHeight = '750px';
+            }
+        });
+
+        // Add transition styles
+        mobileServiciosMenu.style.transition = 'max-height 0.3s ease-in-out';
+        mobileServiciosIcon.style.transition = 'transform 0.3s ease-in-out';
+    }
+
     // Close mobile menu when clicking on a link
     mobileMenuLinks.forEach(function (link) {
-        link.addEventListener('click', closeMobileMenu);
+        link.addEventListener('click', function () {
+            closeMobileMenu();
+            isServiciosOpen = false;
+            if (mobileServiciosMenu) {
+                mobileServiciosMenu.style.maxHeight = '0';
+                if (mobileServiciosIcon) {
+                    mobileServiciosIcon.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+    });
+
+    // Also handle clicks on servicios submenu links
+    var serviciosLinks = document.querySelectorAll('#mobile-servicios-menu a');
+    serviciosLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+            closeMobileMenu();
+            isServiciosOpen = false;
+            if (mobileServiciosMenu) {
+                mobileServiciosMenu.style.maxHeight = '0';
+                if (mobileServiciosIcon) {
+                    mobileServiciosIcon.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
     });
 
     // === Services Carousels Logic ===
